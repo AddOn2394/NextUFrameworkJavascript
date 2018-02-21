@@ -1,13 +1,17 @@
+$(document).ready(function () {
 
+    function cambiarColor() {
 
-    function cambiarColor(){
+        $('.main-titulo').animate({
+            color: "#fff"
+        }, 100);
 
-        $('.main-titulo').each(function() {
-            $(this).find('.main-titulo').animate({
-                width: $(this).attr('data-percent')
-            }, 1500);
-        });
-  
-}
+        $('.main-titulo').animate({color: "yellow"}, cambiarColor);
 
-setInterval(cambiarColor, 5000);
+    }
+
+    setInterval(cambiarColor, 500);
+
+    
+});
+
