@@ -19,14 +19,5 @@ $(document).ready(function () {
         }
     }
     
-    $(".btn-reinicio").click(function () {
-        if ($(".btn-reinicio").text()=='Iniciar') {
-            $(".btn-reinicio").text("Reiniciar");
-        }
-        else{
-            $(".btn-reinicio").text("Iniciar");
-        }
-        ;
-    });
 });
 

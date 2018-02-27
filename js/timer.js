@@ -1,25 +1,34 @@
-var countDownDate = new Date("Sep 5, 2018 15:37:25").getTime();
+$(document).ready(function () {
 
-// Update the count down every 1 second
-var x = setInterval(function () {
-    
-    // Get todays date and time
-    var now = new Date().getTime();
-    
-    // Find the distance between now an the count down date
-    var distance = countDownDate - now;
+    var tiempo = {
+        minuto: 1,
+        segundo: 60
+    };
 
-    // Time calculations for days, hours, minutes and seconds
-    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    var tiempo_corriendo = null;
+    var seconds = 60;
+    var minutes = 0;
+    $(".btn-reinicio").click(function () {
+        if ($(this).text() == 'Iniciar') {
+            $(this).text('Reiniciar');
+            tiempo_corriendo = setInterval(function () {
+                // Segundos
 
-    // Display the result in the element with id="demo"
-    document.getElementById("timer").innerHTML = 
-        + minutes + ": " + seconds;
-
-    // If the count down is finished, write some text 
-    if (distance < 0) {
-        clearInterval(x);
-        document.getElementById("demo").innerHTML = "EXPIRED";
-    }
-}, 1000);
+                if (tiempo.segundo == 0) {
+                    tiempo.segundo = 59;
+                    tiempo.minuto--;
+                }
+                tiempo.segundo--;
+                seconds = (tiempo.segundo < 10 ? '0' + tiempo.segundo : tiempo.segundo);
+                $("#timer").text("0" + tiempo.minuto + ":" + seconds) ;
+                if (tiempo.minuto==0 && tiempo.segundo==0) {
+                    clearInterval(tiempo_corriendo);
+                }
+            }, 1000);
+        }
+        else {
+            $(this).text('Iniciar');
+            clearInterval(tiempo_corriendo);
+        }
+    })
+})
