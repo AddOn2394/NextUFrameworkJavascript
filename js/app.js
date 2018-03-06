@@ -7,7 +7,6 @@ $(document).ready(function () {
         candyDrag.attr('src', dropSrc);
         candyDrop.attr('src', dragSrc);
 
-<<<<<<< HEAD
         setTimeout(function () {
             checkBoard();
             if ($('img.delete').length === 0) {
@@ -17,13 +16,6 @@ $(document).ready(function () {
                 updateMoves();
             }
         }, 500);
-=======
-    $(".main-titulo").click(function () {
-        
-    });
-
-    function cambiarColor() {
->>>>>>> parent of dd533ab... Terminar parte del drag
 
         function updateMoves() {
             var actualValue = Number($('#movimientos-text').text());
@@ -39,7 +31,6 @@ $(document).ready(function () {
             var top = 6;
             var column = $('[class^="col-"]');
 
-<<<<<<< HEAD
             column.each(function () {
                 var candys = $(this).children().length;
                 var agrega = top - candys;
@@ -79,18 +70,6 @@ $(document).ready(function () {
             });
             enableCandyEvents();
         }
-=======
-    setInterval(cambiarColor, 500);
-
-    for (var i = 1; i < 8; i++) {
-        for (var b = 1; b < 8; b++) {
-            $('.col-' + b).prepend('<img style="width : 100%; " src="image/' + (1 + Math.floor(Math.random() * 4)) + '.png">')
-            console.log()
-        }
-    }
-    
-});
->>>>>>> parent of dd533ab... Terminar parte del drag
 
         function disableCandyEvents() {
             $('img').draggable('disable');
