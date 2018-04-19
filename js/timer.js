@@ -1,8 +1,8 @@
 $(document).ready(function () {
 
     var tiempo = {
-        minuto: 0,
-        segundo: 5
+        minuto: 2,
+        segundo: 00
     };
 
     var tiempo_corriendo = null;
@@ -17,7 +17,7 @@ $(document).ready(function () {
                 // Segundos
 
                 if (tiempo.segundo == 0) {
-                    tiempo.segundo = 59;
+                    tiempo.segundo = 60;
                     tiempo.minuto--;
                 }
                 tiempo.segundo--;
@@ -35,6 +35,7 @@ $(document).ready(function () {
         }
         else {
             $(this).text('Iniciar');
+
             $("#timer").text("02:00");
             $('.panel-tablero').show("slow");
             $('.panel-score').css("width", "25%");

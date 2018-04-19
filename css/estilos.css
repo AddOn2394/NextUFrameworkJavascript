@@ -1,4 +1,4 @@
-@font-face {
+ @font-face {
   font-family: gameFont;
   src: url('../fonts/PressStart2P.ttf');
 }
@@ -9,7 +9,10 @@
 body{
   background-image: url('../image/background.jpg');
   background-size: cover;
+  height: 500px;
+
 }
+
 
 .main-container{
   width: 90%;
@@ -31,7 +34,7 @@ body{
   border: 10px solid #E87306;
   background: rgba(232, 115, 6, 0.5);
   border-radius: 5px;
-  height: 700px;
+  height: 500px;
   display: flex;
   flex-flow: row wrap;
 }
@@ -91,6 +94,7 @@ body{
 .data-info{
   font-size: 1.8em;
 }
+
 div[class^='col']{
   width: 14.28%;
   display: flex;
@@ -100,7 +104,7 @@ div[class^='col']{
 
 }
 
-.elemento{
+.jewel{
   width: 99.4px;
   height: 96px;
 
