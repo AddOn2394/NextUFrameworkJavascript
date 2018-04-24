@@ -1,7 +1,12 @@
 $(document).ready(function () {
-
+    var movimientos = 0;
+    var puntuacion = 0;
     $(".main-titulo").click(function () {    });
-
+    var candysType = [];
+    candysType[0] = 'image/1.png'
+    candysType[1] = 'image/2.png'
+    candysType[2] = 'image/3.png'
+    candysType[3] = 'image/4.png'
     function cambiarColor() {
 
         $('.main-titulo').animate({
@@ -16,6 +21,10 @@ $(document).ready(function () {
 
     $('.btn-reinicio').click(function () {
         fillBoard();
+        movimientos=0;
+        puntuacion=0;
+        $('#score-text').text(0);
+        $('#movimientos-text').text(0);
     });
 
     var grid = [];
@@ -23,6 +32,11 @@ $(document).ready(function () {
     var cols = 7;
     var validFigures = 0;
     var levelGoal = 0;
+    // this function returns a random candy.
+    function pickRandomcandy() {
+        var pickInt = Math.floor((Math.random() * 4));
+        return candysType[pickInt];
+    }
     function fillBoard() {
         $('.col-0').empty();
         $('.col-1').empty();
@@ -42,18 +56,6 @@ $(document).ready(function () {
             isInCombo: false, // This property indicate if the cell(r, c) is currently in valid figure
             o: obj // this is a pointer to a jQuery object-
        }
-    }
-
-    var candysType = [];
-    candysType[0] = 'image/1.png'
-    candysType[1] = 'image/2.png'
-    candysType[2] = 'image/3.png'
-    candysType[3] = 'image/4.png'
-
-    // this function returns a random candy.
-    function pickRandomcandy() {
-        var pickInt = Math.floor((Math.random() * 4));
-        return candysType[pickInt];
     }
 
     for (var r = 0; r < rows; r++) {
@@ -106,7 +108,6 @@ document._onDrop = function(e) {
         console.log("firefox compatibility");
         e.preventDefault();
     }
-
     // gets source candy
     var src = e.dataTransfer.getData("text");
     var sr = src.split("_")[1];
@@ -138,17 +139,10 @@ document._onDrop = function(e) {
 
 // check and destroy combination 
 function _checkAndDestroy() {
-
-
-
     /**
     		HORIZONTAL COMBO  
     **/
-
-
     for (var r = 0; r < rows; r++) {
-
-
         var prevCell = null;
         var figureLen = 0;
         var figureStart = null;
@@ -193,13 +187,15 @@ function _checkAndDestroy() {
                     if (figureLen == 3) {
                         validFigures += 1;
                         figureStop = c;
+
                         console.log("Combo from " + figureStart + " to " + figureStop + "!");
                         for (var ci = figureStart; ci <= figureStop; ci++) {
 
                             grid[r][ci].isInCombo = true;
                             grid[r][ci].src = null;
                             //grid[r][ci].o.attr("src","");
-
+                            puntuacion++;
+                            $('#score-text').text(puntuacion);
                         }
                         prevCell = null;
                         figureStart = null;
@@ -212,21 +208,17 @@ function _checkAndDestroy() {
 
         }
     }
-
-
     /**
     		VERTICAL COMBO!
     **/
-
-
+   movimientos++;
+   $('#movimientos-text').text(movimientos);
     for (var c = 0; c < cols; c++) {
-
-
         var prevCell = null;
         var figureLen = 0;
         var figureStart = null;
         var figureStop = null;
-
+        
         for (var r = 0; r < rows; r++) {
 
             // bypass locked and candys that partecipate to combo. 
@@ -267,8 +259,10 @@ function _checkAndDestroy() {
                         validFigures += 1;
                         figureStop = r;
                         console.log("Combo from " + figureStart + " to " + figureStop + "!");
-                        for (var ci = figureStart; ci <= figureStop; ci++) {
 
+                        for (var ci = figureStart; ci <= figureStop; ci++) {
+                            puntuacion++;
+                            $('#score-text').text(puntuacion);
                             grid[ci][c].isInCombo = true;
                             grid[ci][c].src = null;
                             //grid[ci][c].o.attr("src","");
@@ -285,8 +279,6 @@ function _checkAndDestroy() {
 
         }
     }
-
-
     // if there is combo then execute destroy
 
     var isCombo = false;
@@ -296,20 +288,14 @@ function _checkAndDestroy() {
                 console.log("There are a combo");
                 isCombo = true;
             }
-
     if (isCombo)
         _executeDestroy();
     else
         console.log("NO COMBO");
-
-
-
 }
-
 
 // execute the destroy fo cell
 function _executeDestroy() {
-
 
     for (var r = 0; r < rows - 1; r++)
         for (var c = 0; c < cols - 1; c++)
@@ -318,23 +304,21 @@ function _executeDestroy() {
 
         grid[r][c].o.animate({
             opacity: 0
-        }, 500);
+        }, 700, "linear", function () {
+            _executeDestroyMemory();
+        });
 
     }
 
-    $(":animated").promise().done(function () {
-
+/*    $(":animated").promise().done(function () {
         _executeDestroyMemory();
-
-
     });
-
+*/
 
 }
 
-
-
 function _executeDestroyMemory() {
+    console.log('hola');
     // move empty cells to top 
     for (var r = 0; r < rows - 1; r++) {
         for (var c = 0; c < cols - 1; c++) {
@@ -358,24 +342,15 @@ function _executeDestroyMemory() {
                     var tmp = grid[sr][c].src;
                     grid[sr][c].src = grid[sr - 1][c].src;
                     grid[sr - 1][c].src = tmp;
-
                 }
-
             }
-
         }
-
     }
 
-
-
-
-
     console.log("End of movement");
-
     //redrawing the grid
     // and setup respaw			 					
-
+    // this function returns a random candy.
     //Reset all cell
     for (var r = 0; r < rows - 1; r++) {
         for (var c = 0; c < cols - 1; c++) {
@@ -390,9 +365,8 @@ function _executeDestroyMemory() {
                 grid[r][c].o.off("ondragover");
                 grid[r][c].o.off("ondrop");
                 grid[r][c].o.off("ondragstart");
-
-
                 grid[r][c].respawn = false; // respawned!
+
                 console.log("Respawning " + r + "," + c);
                 grid[r][c].src = pickRandomcandy();
                 grid[r][c].locked = false;
@@ -400,19 +374,12 @@ function _executeDestroyMemory() {
                 grid[r][c].o.attr("ondragstart", "_ondragstart(event)");
                 grid[r][c].o.attr("ondrop", "_onDrop(event)");
                 grid[r][c].o.attr("ondragover", "_onDragOverEnabled(event)");
-                //grid[r][c].o.css("opacity","0.3");
-                //grid[r][c].o.css("background-color","red");
             }
         }
     }
 
-
-
     console.log("Combo resetted and rewpawned");
-
     // check for other combos
     _checkAndDestroy();
-
 }
-
  });
